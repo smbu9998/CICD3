@@ -34,16 +34,20 @@ jobs:
         shell: powershell
         run: |
           $tags = git tag --sort=-v:refname
-          if ($tags.Count -eq 0) {
-            $newVersion = "v1.0.0"
-          } else {
-            $latest = $tags[0]
-            $parts = $latest.TrimStart("v").Split(".")
-            $major = $parts[0]
-            $minor = $parts[1]
-            $patch = [int]$parts[2] + 1
-            $newVersion = "v$major.$minor.$patch"
+
+          if (-not $tags) {
+              $newVersion = "v1.0.0"
           }
+          else {
+              $latest = ($tags | Select-Object -First 1).ToString()
+              $clean = $latest.TrimStart("v")
+              $parts = $clean.Split(".")
+              $major = $parts[0]
+              $minor = $parts[1]
+              $patch = [int]$parts[2] + 1
+              $newVersion = "v$major.$minor.$patch"
+          }
+
           echo "version=$newVersion" >> $env:GITHUB_OUTPUT
 
       - name: Create Release Branch
