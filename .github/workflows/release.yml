@@ -65,16 +65,15 @@ jobs:
         run: |
           & "C:\tools\nuget.exe" restore "CICD3.sln"
 
-      - name: Build Solution
+      - name: Publish Web Application
         shell: powershell
         run: |
-          & "C:\Program Files (x86)\MSBuild\14.0\Bin\MSBuild.exe" "CICD3.sln" /p:Configuration=Release /p:Platform="Any CPU"
-
-          Write-Host "==== Checking Release folders ===="
-
-          Get-ChildItem "${{ github.workspace }}" -Recurse -Directory |
-            Where-Object { $_.Name -eq "Release" } |
-            Select-Object FullName
+          & "C:\Program Files (x86)\MSBuild\14.0\Bin\MSBuild.exe" `
+            "CICD3\CICD3.csproj" `
+            /p:Configuration=Release `
+            /p:DeployOnBuild=true `
+            /p:WebPublishMethod=FileSystem `
+            /p:PublishUrl="PublishedOutput"
 
 
       - name: Deploy Files
