@@ -57,8 +57,9 @@ jobs:
           git push origin ${{ steps.version.outputs.version }}
 
       - name: Build Solution
+        shell: powershell
         run: |
-          "C:\Program Files (x86)\MSBuild\14.0\Bin\MSBuild.exe" CICD3.sln /p:Configuration=Release /p:Platform="Any CPU"
+          & "C:\Program Files (x86)\MSBuild\14.0\Bin\MSBuild.exe" "CICD3.sln" /p:Configuration=Release /p:Platform="Any CPU"
 
       - name: Deploy Files
         shell: powershell
