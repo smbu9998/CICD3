@@ -80,7 +80,7 @@ jobs:
       - name: Deploy Files
         shell: powershell
         run: |
-          $source = "${{ github.workspace }}\CICD3\bin\Release"
+          $source = "${{ github.workspace }}\CICD3\obj\Release\Package\PackageTmp"
 
           Write-Host "Using source path: $source"
 
@@ -88,6 +88,8 @@ jobs:
               Write-Error "Source path not found: $source"
               exit 1
           }
+
+          Copy-Item "$source\*" "D:\Publish New\Environments\MyApp\QA" -Recurse -Force
 
           if ("${{ inputs.deploy_qa }}" -eq "true") {
             Copy-Item "$source\*" "D:\Publish New\Environments\MyApp\QA" -Recurse -Force
