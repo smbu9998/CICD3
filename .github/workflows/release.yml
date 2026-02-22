@@ -70,11 +70,11 @@ jobs:
         run: |
           & "C:\Program Files (x86)\MSBuild\14.0\Bin\MSBuild.exe" "CICD3.sln" /p:Configuration=Release /p:Platform="Any CPU"
 
-        Write-Host "==== Checking Release folders ===="
+          Write-Host "==== Checking Release folders ===="
 
-        Get-ChildItem "${{ github.workspace }}" -Recurse -Directory |
-          Where-Object { $_.Name -eq "Release" } |
-          Select-Object FullName
+          Get-ChildItem "${{ github.workspace }}" -Recurse -Directory |
+            Where-Object { $_.Name -eq "Release" } |
+            Select-Object FullName
 
 
       - name: Deploy Files
@@ -82,7 +82,7 @@ jobs:
         run: |
           $source = "${{ github.workspace }}\CICD3\bin\Release"
 
-        Write-Host "Using source path: $source"
+          Write-Host "Using source path: $source"
 
           if (!(Test-Path $source)) {
               Write-Error "Source path not found: $source"
