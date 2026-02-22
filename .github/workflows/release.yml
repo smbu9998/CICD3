@@ -60,11 +60,11 @@ jobs:
           git tag ${{ steps.version.outputs.version }}
           git push origin ${{ steps.version.outputs.version }}
 
-      - name: Restore NuGet Packages
+      - name: Build Solution
         shell: powershell
         run: |
-          & "C:\Program Files (x86)\MSBuild\14.0\Bin\MSBuild.exe" "CICD3.sln" /t:Restore
-          
+          & "C:\Program Files (x86)\MSBuild\14.0\Bin\MSBuild.exe" "CICD3.sln" /t:Restore,Build /p:Configuration=Release /p:Platform="Any CPU"
+        
       - name: Build Solution
         shell: powershell
         run: |
